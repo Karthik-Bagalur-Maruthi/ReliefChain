@@ -11,6 +11,11 @@ const incidentSchema = new mongoose.Schema({
     type: String,
     default: "Completed"
   },
+
+  status: {
+    type: String,
+    default: "Pending"
+  },
   createdAt: {
     type: Date,
     default: Date.now

@@ -1,7 +1,7 @@
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { getIncidents } from "../services/incidentService";
-import { router } from "expo-router";
 
 export default function Dashboard() {
   type Incident = {
@@ -9,6 +9,7 @@ export default function Dashboard() {
     disasterType: string;
     severity: string;
     resources: string;
+    status: string;
   };
 
   const [incidents, setIncidents] = useState<Incident[]>([]);
@@ -59,22 +60,22 @@ export default function Dashboard() {
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
           <TouchableOpacity
-onPress={() =>
-router.push({
- pathname:"/incidentDetails",
- params:{
-   disasterType:item.disasterType,
-   severity:item.severity,
-   resources:item.resources
- }
-})
-}
-style={{
- borderWidth:1,
- padding:10,
- marginBottom:10
-}}
->
+            onPress={() =>
+              router.push({
+                pathname: "/incidentDetails",
+                params: {
+                  disasterType: item.disasterType,
+                  severity: item.severity,
+                  resources: item.resources,
+                },
+              })
+            }
+            style={{
+              borderWidth: 1,
+              padding: 10,
+              marginBottom: 10,
+            }}
+          >
             <Text>Disaster: {item.disasterType}</Text>
             <Text
               style={{
@@ -89,6 +90,7 @@ style={{
               Severity: {item.severity}
             </Text>
             <Text>Resources: {item.resources}</Text>
+            <Text>Status: {item.status}</Text>
           </TouchableOpacity>
         )}
       />

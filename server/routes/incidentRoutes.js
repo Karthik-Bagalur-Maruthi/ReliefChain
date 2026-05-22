@@ -13,8 +13,30 @@ router.post("/create", async (req, res) => {
 });
 
 router.get("/all", async (req, res) => {
-  const data = await Incident.find();
-  res.json(data);
+  try {
+    const data = await Incident.find();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.put("/:id/status", async (req, res) => {
+  try {
+    const updatedIncident = await Incident.findByIdAndUpdate(
+      req.params.id,
+      {
+        status: req.body.status,
+      },
+      { new: true }
+    );
+
+    res.json(updatedIncident);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 });
 
 module.exports = router;
