@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { createIncident } from "../services/incidentService";
@@ -15,7 +16,12 @@ export default function Incident() {
         resources: resources,
       });
 
-      Alert.alert("Success", "Incident Reported");
+      Alert.alert("Success", "Incident Reported", [
+        {
+          text: "OK",
+          onPress: () => router.push("/dashboard"),
+        },
+      ]);
 
       setType("");
       setSeverity("");
