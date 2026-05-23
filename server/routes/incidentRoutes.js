@@ -39,4 +39,20 @@ router.put("/:id/status", async (req, res) => {
   }
 });
 
+/* NEW CLEAR ROUTE */
+router.delete("/clear", async (req, res) => {
+  try {
+    await Incident.deleteMany({});
+
+    res.status(200).json({
+      message: "All incidents deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Delete failed",
+      error: error.message,
+    });
+  }
+});
+
 module.exports = router;

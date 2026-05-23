@@ -9,8 +9,11 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
-    },
+  "supportsTablet": true,
+  "infoPlist": {
+    "NSLocationWhenInUseUsageDescription": "ReliefChain needs location access for disaster response mapping."
+  }
+},
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -37,6 +40,13 @@
           "dark": {
             "backgroundColor": "#000000"
           }
+        }
+      ],
+      "expo-sqlite",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow ReliefChain to access your location for emergency response."
         }
       ]
     ],
