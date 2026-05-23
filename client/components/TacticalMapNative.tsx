@@ -56,10 +56,12 @@ export default function TacticalMap() {
     try {
       const data = await getIncidents();
 
+      console.log("MAP INCIDENTS:", data);
+
       const gpsIncidents = (data || []).filter(
         (item: Incident) =>
-          item.latitude &&
-          item.longitude &&
+          item.latitude !== undefined &&
+          item.longitude !== undefined &&
           item.status?.toUpperCase() !== "RESOLVED"
       );
 
@@ -73,14 +75,13 @@ export default function TacticalMap() {
     try {
       const data = await getTasks();
 
-      const gpsTasks = (data || []).filter(
-  (task: Task) =>
-    task.latitude &&
-    task.longitude &&
-    task.status?.toUpperCase() !== "COMPLETED"
-);
+      console.log("MAP TASKS:", data);
 
-      setTasks(gpsTasks);
+      const activeTasks = (data || []).filter(
+        (task: Task) => task.status?.toUpperCase() !== "COMPLETED"
+      );
+
+      setTasks(activeTasks);
     } catch (error) {
       console.log("TASK FETCH FAILED:", error);
     }
@@ -113,6 +114,27 @@ export default function TacticalMap() {
     await loadLiveLocation();
     await loadIncidents();
     await loadTasks();
+  };
+
+  const getTaskCoordinate = (task: Task, index: number) => {
+    if (task.latitude !== undefined && task.longitude !== undefined) {
+      return {
+        latitude: task.latitude,
+        longitude: task.longitude,
+      };
+    }
+
+    if (userLocation) {
+      return {
+        latitude: userLocation.latitude + index * 0.0004,
+        longitude: userLocation.longitude + index * 0.0004,
+      };
+    }
+
+    return {
+      latitude: 12.9716 + index * 0.0004,
+      longitude: 77.5946 + index * 0.0004,
+    };
   };
 
   return (
@@ -153,20 +175,13 @@ export default function TacticalMap() {
           />
         ))}
 
-        {tasks.map((task) => (
+        {tasks.map((task, index) => (
           <Marker
             key={task._id}
-            coordinate={{
-              latitude: task.latitude!,
-              longitude: task.longitude!,
-            }}
+            coordinate={getTaskCoordinate(task, index)}
             title={task.volunteerName}
             description={`${task.taskTitle} • ${task.status}`}
-            pinColor={
-              task.status?.toUpperCase() === "COMPLETED"
-                ? "gray"
-                : "orange"
-            }
+            pinColor="orange"
           />
         ))}
       </MapView>
@@ -233,7 +248,7 @@ export default function TacticalMap() {
         </Text>
 
         <Text style={{ color: "#aaa", marginTop: 8 }}>
-          Red = active incidents | Orange = assigned teams | Gray = completed
+          Red = active incidents | Orange = assigned response teams
         </Text>
 
         <TouchableOpacity

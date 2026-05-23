@@ -9,11 +9,11 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-  "supportsTablet": true,
-  "infoPlist": {
-    "NSLocationWhenInUseUsageDescription": "ReliefChain needs location access for disaster response mapping."
-  }
-},
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "ReliefChain needs location access for disaster response mapping."
+      }
+    },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -22,7 +22,12 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ],
+      "package": "com.reliefchain.app"
     },
     "web": {
       "output": "static",
@@ -53,6 +58,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "9ef6da4b-c0f4-4e27-bce9-40ff5f07ea39"
+      }
     }
   }
 }
